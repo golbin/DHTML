@@ -1,0 +1,40 @@
+<script>
+	class DHTML {
+  		constructor(piece, post) {
+    		this.piece = piece;
+  		}
+
+  		load(pieceName) {
+  			var url = new URL(this.piece["pieceName"]["html"], window.location.origin)
+
+  			url.append
+
+  			document.getElementById(pieceName).innerHTML =
+  				'<object type="text/html" data="' + this.piece[pieceName][html] + '"></object>';
+
+  		}
+	}
+
+	const piece = {
+		home: {
+			html: "home.html"
+		},
+		list: {
+			html: "list.html",
+			autoload: true
+		}
+	}
+
+	const action = {
+		pageButton: {
+			param: ["id", "page"],
+			piece: "list"
+		},
+	}
+
+	const d = new DHTML()
+</script>
+
+<div id="list"></div>
+
+<div class="pageButton" data-id="123" data-page="2">클릭</div>
