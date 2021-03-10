@@ -1,40 +1,64 @@
+<div
+	id="desc"
+	d-on="load"
+	data-html="desc.html"
+></div>
+
+<div
+	id="list"
+	data-html="list.html"
+></div>
+
+<div
+	d-on="click"
+	data-param='{"id": 123, "page": 2}'
+	data-target="list"
+>클릭</div>
+
+
 <script>
 	class DHTML {
-  		constructor(piece, post) {
-    		this.piece = piece;
+  		constructor() {
+  			for (const elem of document.querySelectorAll('[d-on]')) {
+  				const event = elem.getAttribute("d-on")
+
+    			if (event === "load") {
+    				this.load(elem.dataset.html, elem.dataset.param, elem.id)
+    			} else if (event === "click") {
+    				this.bind(elem)
+    			}
+    		}
   		}
 
-  		load(pieceName) {
-  			var url = new URL(this.piece["pieceName"]["html"], window.location.origin)
+  		bind(elem) {
+  			let load = this.load;
 
-  			url.append
+  			elem.addEventListener('click', function() {
+	  			load(elem.dataset.html, elem.dataset.param, elem.dataset.target);
+  			});
+  		}
 
-  			document.getElementById(pieceName).innerHTML =
-  				'<object type="text/html" data="' + this.piece[pieceName][html] + '"></object>';
+  		load(html, param, target) {
+  			let url = new URL(html, window.location.origin)
+
+  			if (!html) {
+  				url.pathname = document.getElementById(target).dataset.html
+  			}
+
+  			if (param) {
+	  			for (const [key, value] of Object.entries(JSON.parse(param))) {
+ 					url.searchParams.append(key, value);
+				}
+	  		}
+
+  			document.getElementById(target).innerHTML =
+  			 	'<object type="text/html" data="' + url.toString() + '"></object>';
 
   		}
 	}
 
-	const piece = {
-		home: {
-			html: "home.html"
-		},
-		list: {
-			html: "list.html",
-			autoload: true
-		}
+	window.onload = function() {
+		const d = new DHTML()
 	}
-
-	const action = {
-		pageButton: {
-			param: ["id", "page"],
-			piece: "list"
-		},
-	}
-
-	const d = new DHTML()
 </script>
 
-<div id="list"></div>
-
-<div class="pageButton" data-id="123" data-page="2">클릭</div>
