@@ -18,47 +18,46 @@
 
 <script>
 	class DHTML {
-  		constructor() {
-  			for (const elem of document.querySelectorAll('[d-on]')) {
-  				const event = elem.getAttribute("d-on")
+		constructor() {
+			for (const elem of document.querySelectorAll('[d-on]')) {
+				const event = elem.getAttribute("d-on")
 
-    			if (event === "load") {
-    				this.load(elem.dataset.html, elem.dataset.param, elem.id)
-    			} else if (event === "click") {
-    				this.bind(elem)
-    			}
-    		}
-  		}
+				if (event === "load") {
+					this.load(elem.dataset.html, elem.dataset.param, elem.id)
+				} else if (event === "click") {
+					this.bind(elem)
+				}
+			}
+		}
 
-  		bind(elem) {
-  			let load = this.load;
+		bind(elem) {
+			let load = this.load;
 
-  			elem.addEventListener('click', function() {
-	  			load(elem.dataset.html, elem.dataset.param, elem.dataset.target);
-  			});
-  		}
+			elem.addEventListener('click', function() {
+				load(elem.dataset.html, elem.dataset.param, elem.dataset.target);
+			});
+		}
 
-  		load(html, param, target) {
-  			let url = new URL(html, window.location.origin)
+		load(html, param, target) {
+			let url = new URL(html, window.location.origin)
 
-  			if (!html) {
-  				url.pathname = document.getElementById(target).dataset.html
-  			}
+			if (!html) {
+				url.pathname = document.getElementById(target).dataset.html
+			}
 
-  			if (param) {
-	  			for (const [key, value] of Object.entries(JSON.parse(param))) {
+			if (param) {
+				for (const [key, value] of Object.entries(JSON.parse(param))) {
  					url.searchParams.append(key, value);
 				}
-	  		}
+			}
 
-  			document.getElementById(target).innerHTML =
-  			 	'<object type="text/html" data="' + url.toString() + '"></object>';
+			document.getElementById(target).innerHTML =
+			 	'<object type="text/html" data="' + url.toString() + '"></object>';
 
-  		}
+		}
 	}
 
 	window.onload = function() {
 		const d = new DHTML()
 	}
 </script>
-
