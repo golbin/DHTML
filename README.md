@@ -1,2 +1,2 @@
 # DHTML
-Simple DHTML /w JSON and any hustle
+Simple DHTML /wo JSON and any hustle
